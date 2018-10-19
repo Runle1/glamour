@@ -33,8 +33,19 @@
 
         <div class="all">
             <div class="shan">闪购</div>
-            <div class="shell">促销</div>
-            <div class="serve">服务</div>
+            <div class="shell">
+                <p>促销</p>
+                <span>购FREE PEOPLE 最后清仓专场任意产品，购满2件8折优惠，购满3件7折优惠</span>
+            </div>
+            <div class="serve">
+                <p>服务</p> 
+                <ul>
+                    <li>全场满688包邮</li>
+                    <li>正品保障</li>
+                    <li>买手推荐</li>
+                    <li>七天无理由退货</li>
+                </ul>
+            </div>
             <ul>
                 <!-- 服务<li>{{datalist.infos.promotions.event.info}}</li> -->
             </ul>
@@ -55,19 +66,59 @@
                 <ul class="story" v-for="description in descriptionlist" :key="description.id">
                     <li>
                         <span>{{description.name}}</span>
-                        <span>{{description.value}}</span>
+                        <span class="zuo">{{description.value}}</span>
                     </li>
                 </ul>
         </article>
 
-        <ul class="sizeInfo">
+        <div class="sizeInfo">
                 <h3>尺码信息</h3>
-                <li>长度</li>
-                <li>宽度</li>
-        </ul>
-        {{datalist.infos.description.design}}
-        <h3 class="goods">商品详情</h3>
+                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
+                    <ul>
+                        <li>{{sizeTable.product_size}}</li>
+                    </ul>  
+                </div>
+                
+                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
+                    <ul>
+                        <li>{{sizeTable.specifications}}</li>
+                    </ul>  
+                </div>
+
+                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
+                    <ul>
+                        <li>{{sizeTable.def19}}</li>
+                    </ul>  
+                </div>
+
+
+                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
+                    <ul>
+                        <li>{{sizeTable.def8}}</li>
+                    </ul>  
+                </div>
+
+                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
+                    <ul>
+                        <li>{{sizeTable.def10}}</li>
+                    </ul>  
+                </div>
+
+
+                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
+                    <ul>
+                        <li>{{sizeTable.def14}}</li>
+                    </ul>  
+                </div>        
+        </div>
         
+        <div class="goodsDetail">
+            <span>商品详情</span>
+            <!-- <h3></h3> -->
+            <span>{{datalist.infos.description.design}}</span>
+        </div>
+        
+
         <div class="sx" v-for="data in looplist" :key="data.index">
                 <img :src="data.bigImgUrl">
         </div>
@@ -94,7 +145,8 @@
                 looplist:[],
                 datalist:null,
                 descriptionlist:[],
-                sizelist:[]
+                sizelist:[],
+                sizeTablelist:[]
                 
 			}
         },
@@ -107,9 +159,13 @@
                 // console.log(this.looplist);
                 // console.log(res.data.infos.brand);
                 this.descriptionlist = res.data.infos.description.attributesList;
-                console.log(this.descriptionlist);
+                // console.log(this.descriptionlist);
                 this.sizelist = res.data.infos.size;
-                console.log(this.sizelist);
+                // console.log(this.sizelist);
+
+                this.sizeTablelist = res.data.infos.sizeMeasure.sizeTable;
+                // console.log(this.sizeTablelist);
+
 
                 this.$store.commit("brangchange",res.data.infos.brand);
                 this.$store.commit("pricechange",res.data.infos.price);
@@ -153,7 +209,6 @@ img{
     display: block;
 }
 div{
-
     .icon{
             i{
                     width: 55px;
@@ -200,7 +255,9 @@ div{
             
     }
     .name{
+        padding: 10px;
         margin-left: 10px;
+        margin-top: 10px;
         p:nth-child(1){
             font-size: 18px;
             margin-bottom: 5px;
@@ -242,7 +299,6 @@ div{
         }
     }
     .all{
-        // padding: 10px;
         font-size: 15px;
     .shan{
         width: 100%;
@@ -255,18 +311,50 @@ div{
     .shell{
         width: 100%;
         height: 60px;
-        line-height: 60px;
-        color: #666;
         border: 1px solid rgb(236, 234, 234);
         border-bottom: none;
+        p{
+            color: #666;
+            font-size: 15px;
+            margin-top: 20px;
+            float: left;
+        }
+        span{
+            color: #dd2828;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            text-overflow: ellipsis;
+            width: 260px;
+            height:20px;
+            float: left; 
+            margin-top: 20px;
+            font-weight: 700;
+            margin-left: 15px;
+        }
     }
     .serve{
         width: 100%;
-        height: 60px;
-        line-height: 60px;
+        height: 70px;
+        line-height: 20px;
         color: #666;
         border: 1px solid rgb(236, 234, 234);
         border-bottom: none;
+        p{
+            color: #666;
+            font-size: 15px;
+            margin-top: 20px;
+            float: left;
+        }
+        ul{
+             margin-top: 20px;
+            li{
+                line-height: 20px;
+                float: left;
+                font-size: 12px;
+                margin-left: 15px;
+            }
+        }
     }
     }
     .size{
@@ -299,7 +387,7 @@ div{
     
     
     article{
-        padding: 10px;
+        
         h3{
             margin-bottom: 15px;
         }
@@ -324,15 +412,18 @@ div{
         margin-bottom: 10px;
         }
         padding: 10px;
+        ul{
+        width: 100%;
+        list-style: none;
+        font-size: 12px;
         li{
-                font-size: 14px;
-                color:#999;
-                padding: 5px;
-        }
-    }
-    .goods{
-        padding:10px;
-    }
+           float: left;
+           width: 20%;
+           height:30px;
+           line-height: 30px; 
+        }     
+    }}
+    
     .story{
         font-size: 14px;
         padding: 10px;
@@ -347,6 +438,20 @@ div{
             
         }
     }
-   
+    .goodsDetail{
+        width: 100%;
+        float: left;
+        span:nth-child(1){
+            display: inline-block;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        span:nth-child(2){
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    }
 }
 </style>
