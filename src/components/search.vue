@@ -1,5 +1,5 @@
 <template>
-	<div>login</div>
+	<div>search</div>
 </template>
 
 <script>
@@ -8,16 +8,10 @@
 			return {
 				
 			}
-		},
-		mounted(){
-			this.$store.commit("kerwinchangetitle",false)
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	div{
-		position: relative;
-		top: -70px;
-	}
+
 </style>

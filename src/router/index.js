@@ -8,6 +8,8 @@ import login from "../components/login.vue"
 import crossborder from "../components/crossborder.vue"
 import shoppingcart from "../components/shoppingcart.vue"
 import woman from "../components/woman.vue"
+import detail from "../components/detail.vue"
+import productdetail from "../components/productdetail.vue"
 
 export default new Router({
   routes: [
@@ -28,8 +30,16 @@ export default new Router({
     	component: shoppingcart
     },
     {
-    	path: "/woman",
-    	component: woman
+        path: "/woman",
+        component: woman
+    },
+    {
+      path:"/detail/:detailid",
+      component:detail
+    },
+    {
+      path:"/productdetail/:productdetailid",
+      component: productdetail
     }
 
   ]
