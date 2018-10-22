@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/appapi':{
-          target:'http://www.mei.com',
-          host:'www.mei.com',
-          changeOrigin:true
-      }
+        '/appapi':{
+            target:'http://www.mei.com',
+            host:'www.mei.com',
+            changeOrigin:true
+        }
     },
 
     // Various Dev Server settings

@@ -56,6 +56,7 @@
         },
         mounted(){
             // console.log(this.$route.params.detailid);
+            this.$store.commit("kerwinchangetitle",false)
 
             axios.get(`/appapi/event/product/v3?pageIndex=1&categoryId=${this.$route.params.detailid}&key=&sort=&timestamp=1539820532825&summary=39822f18f2f3e6ef97c41aeb62d5a2c1&platform_code=H5`).then(res=>{
                 console.log(res.data);
