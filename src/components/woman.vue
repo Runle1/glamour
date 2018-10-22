@@ -62,6 +62,7 @@ import { Indicator } from 'mint-ui';
 				
 				if(this.current>this.total){
 					this.loading = true;
+					Indicator.close();
 					return;	
 				}
 				

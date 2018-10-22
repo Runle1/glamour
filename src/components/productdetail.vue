@@ -63,73 +63,61 @@
         <article>
                 <h3>商品参数</h3>
                 <img :src="datalist.infos.description.material_quality_img" alt="">
-                <ul class="story" v-for="description in descriptionlist" :key="description.id">
-                    <li>
-                        <span>{{description.name}}</span>
-                        <span class="zuo">{{description.value}}</span>
-                    </li>
+                <div class="canshu">
+                <ul class="story">
+                    <li  v-for="description in descriptionlist" :key="description.id">{{description.name}}</li>
                 </ul>
-        </article>
 
+                <ul class="story1">
+                    <li  v-for="description in descriptionlist" :key="description.id">{{description.value}}</li>
+                </ul>
+                </div>
+        </article>
+                
         <div class="sizeInfo">
                 <h3>尺码信息</h3>
-                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
+                <div  class="chima">
                     <ul>
-                        <li>{{sizeTable.product_size}}</li>
+                        <li v-for="sizeTable in sizeTablelist" :key="sizeTable.id" v-if="sizeTable">{{sizeTable}}</li>
                     </ul>  
+
+                    <ul>
+                        <li v-for="sizeValue in sizeValuelist" :key="sizeValue.id">{{sizeValue}}</li>
+                    </ul>
                 </div>
-                
-                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
-                    <ul>
-                        <li>{{sizeTable.specifications}}</li>
-                    </ul>  
-                </div>
-
-                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
-                    <ul>
-                        <li>{{sizeTable.def19}}</li>
-                    </ul>  
-                </div>
-
-
-                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
-                    <ul>
-                        <li>{{sizeTable.def8}}</li>
-                    </ul>  
-                </div>
-
-                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
-                    <ul>
-                        <li>{{sizeTable.def10}}</li>
-                    </ul>  
-                </div>
-
-
-                <div v-for="sizeTable in sizeTablelist" :key="sizeTable.id" class="chima">
-                    <ul>
-                        <li>{{sizeTable.def14}}</li>
-                    </ul>  
-                </div>        
         </div>
         
         <div class="goodsDetail">
             <span>商品详情</span>
-            <!-- <h3></h3> -->
             <span>{{datalist.infos.description.design}}</span>
         </div>
-        
 
         <div class="sx" v-for="data in looplist" :key="data.index">
                 <img :src="data.bigImgUrl">
         </div>
-
-        <div>
-                <li><img :src="datalist.infos.brandImg" alt=""></li>
-                <span class="story">{{datalist.infos.brand_story}}</span>
-               
-                <img src="../assets/2.jpg" >
+        
+        <div class="cankao">
+            <p>图片及相关信息仅供参考，因拍摄灯光及不同显示器色差等问题可能造成商品图片与实物的色差，一切以实物为准。</p>
+            <h3>洗护与保养</h3>
+            <li v-if="maintenanceList">{{maintenanceList}}</li>
+            <h3>{{$store.state.bandtitle}}</h3>
+             <img :src="datalist.infos.brandImg" alt="">
+             <span>{{datalist.infos.brand_story}}</span>
+             <h3>价格说明</h3>
+             <span>划线价格：为品牌指导价，并非原价</span>
+             <span>未划线价格：为魅力惠实时售价</span>
+             <img src="../assets/2.jpg" class="jinyong">
         </div>
 
+        <div class="discuss">
+            <h3>用户评论(4)</h3>
+            <ul>
+                <li v-for="reviews in reviewsList" :key="reviews.id">{{reviews}}</li>
+            </ul>
+            <ul>
+                <li v-for="reviews1 in reviewsList1" :key="reviews1.id">{{reviews1}}</li>
+            </ul>
+        </div>
         </div>
     </div>
 </template>
@@ -146,8 +134,11 @@
                 datalist:null,
                 descriptionlist:[],
                 sizelist:[],
-                sizeTablelist:[]
-                
+                sizeTablelist:null,
+                sizeValuelist:null,
+                maintenanceList:[],
+                reviewsList:[],
+                reviewsList1:[]
 			}
         },
         mounted(){
@@ -163,9 +154,18 @@
                 this.sizelist = res.data.infos.size;
                 // console.log(this.sizelist);
 
-                this.sizeTablelist = res.data.infos.sizeMeasure.sizeTable;
+                this.sizeTablelist = res.data.infos.sizeMeasure.sizeTable[0];
+                this.sizeValuelist = res.data.infos.sizeMeasure.sizeTable[1];
+                console.log(this.sizeValuelist);
                 // console.log(this.sizeTablelist);
 
+                this.maintenanceList = res.data.infos.description.maintenanceList[0];
+                // console.log(this.maintenanceList);
+
+                this.reviewsList = res.data.infos.productReviews.reviews[0];
+                this.reviewsList1 = res.data.infos.productReviews.reviews[1];
+                
+                console.log(this.reviewsList);
 
                 this.$store.commit("brangchange",res.data.infos.brand);
                 this.$store.commit("pricechange",res.data.infos.price);
@@ -297,6 +297,36 @@ div{
             background: white;
             border:1px solid rgb(0, 0, 0)
         }
+        .cankao{
+            padding: 10px;
+            p{
+                font-size: 12px;
+                margin-bottom: 20px;
+            }
+            h3{
+                width:100%;
+                height:69px;
+                line-height: 69px;
+                border-top: 1px solid #ccc;
+            }
+            li{
+                font-size: 11px;
+                color: #666;
+                margin-bottom: 20px;
+                list-style: disc;
+                width: auto;
+            }
+            img{
+                width:100%;
+                margin-bottom: 10px;
+            }
+            span{
+                width: 335px;
+                height:220px;
+                font-size: 12px; 
+            }
+
+        }
     }
     .all{
         font-size: 15px;
@@ -384,10 +414,10 @@ div{
         }
         
     }
-    
-    
+
     article{
-        
+        float: left;
+        padding: 10px;
         h3{
             margin-bottom: 15px;
         }
@@ -395,41 +425,59 @@ div{
             margin-bottom: 10px;
             width: 100%;
         }
-        ul{            
+        .canshu{
+             font-size: 14px;
+             width: 100%;
+             line-height: 30px;
+             text-align:left;
+        .story{
+            float: left;
+            margin-right: 10px;
             li{
-                font-size: 14px;
-                span:nth-child(1){
-                    color:#999;
-                }
-                span:nth-child(2){
-                    margin-left: 60px;
-                }
+                width: auto;
+                height:30px;
+                color: #999;
+            }
+        }
+        .story1{
+            float: left;
+            li{
+                width: auto;
+                height:30px;
             }
         }
     }
+        
+    }
     .sizeInfo{
+        float: left;
+        padding: 10px;
         h3{
         margin-bottom: 10px;
         }
-        padding: 10px;
-        ul{
-        width: 100%;
-        list-style: none;
-        font-size: 12px;
-        li{
-           float: left;
-           width: 20%;
-           height:30px;
-           line-height: 30px; 
-        }     
-    }}
-    
-    .story{
-        font-size: 14px;
-        padding: 10px;
-        display: block;
-        text-align: justify;
-    }
+        .chima{
+            font-size: 13px;
+            line-height: 30px;
+            
+            ul:nth-child(1){
+                 float: left;
+                 margin-right:30px; 
+                 text-align: left;
+                li{
+                 width: auto;
+                  height:30px;                 
+                }
+            }
+            ul:nth-child(2){
+                 float: left;
+                 text-align: center;
+                li{
+                    width: auto;
+                    height:30px;
+                }
+            }
+        }
+       }
     .sx{
         padding: 10px;
         width: 90%;
@@ -450,8 +498,9 @@ div{
         span:nth-child(2){
             display: inline-block;
             margin-top: 10px;
-            font-size: 14px;
+            font-size: 13px;
         }
     }
+    
 }
 </style>
